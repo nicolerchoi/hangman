@@ -1,5 +1,6 @@
 {
   "name": "hangman",
+  "homepage": "https://nicolerchoi.github.io/hangman",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
