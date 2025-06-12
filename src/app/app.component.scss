@@ -7,7 +7,7 @@
 
 .list-letters {
     display: flex;
-    padding: 50px 0;
+    padding: 20px 0;
 }
 
 .letter {
@@ -27,4 +27,19 @@
 
 .letter + .letter {
     margin-left: 10px;
+}
+
+button.material-symbols-outlined {
+    border: none;
+    border-radius: 50%;
+    background: rgb(206, 142, 181);
+    color: rgb(235, 197, 220);
+    padding: 5px;
+    margin-bottom: 20px;
+    transform: scale(-1, 1); // flip icon
+    cursor: pointer;
+
+    &:hover {
+        background: rgb(184, 130, 162);
+    }
 }

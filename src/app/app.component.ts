@@ -1,6 +1,5 @@
-import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from './api.service';
-import { Observable, Subscription } from 'rxjs';
 import { HangmanComponent } from './components/hangman/hangman.component';
 
 @Component({
@@ -8,7 +7,7 @@ import { HangmanComponent } from './components/hangman/hangman.component';
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
     title = 'hangman';
 
     @HostListener('document:keyup', ['$event'])
@@ -18,7 +17,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
     @ViewChild(HangmanComponent) hangman: HangmanComponent = {} as HangmanComponent;
 
-    word$: Observable<string> = this.api.getWord();
     word: string = '';
     displayed: string[] = [];
 
@@ -27,21 +25,15 @@ export class AppComponent implements OnInit, OnDestroy {
 
     reveal: boolean = false;
 
-    subscription: Subscription = new Subscription();
-
     constructor(private api: ApiService) {}
 
     ngOnInit(): void {
-        for (const sub of [
-            this.api.getWord().subscribe(word => {
-                this.word = word;
-                this.displayed = Array.from(word, _ => ' ')
-            })
-        ]) this.subscription.add(sub);
+        this.getNewWord();
     }
 
-    ngOnDestroy(): void {
-        this.subscription.unsubscribe();
+    async getNewWord(): Promise<void> {
+        this.word = await this.api.getWord().toPromise() ?? '';
+        this.displayed = Array.from(this.word, _ => ' ');
     }
 
     onEnter(key: string): void {
@@ -65,5 +57,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
     onDead(): void {
         this.reveal = true;
+    }
+
+    restart(): void {
+        this.getNewWord();
+        this.guessed = [];
+        this.wrongGuesses = [];
+        this.reveal = false;
+        this.hangman.reset();
     }
 }

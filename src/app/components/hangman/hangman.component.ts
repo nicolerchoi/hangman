@@ -10,6 +10,8 @@ export class HangmanComponent implements OnInit, OnDestroy, AfterViewInit {
     @ViewChild('hangmanCanvas', { static: true }) canvasRef!: ElementRef<HTMLCanvasElement>;
     private ctx!: CanvasRenderingContext2D;
 
+    private drawSteps = this.getDrawSteps();
+
     @Output() dead: EventEmitter<void> = new EventEmitter<void>();
 
     constructor(private api: ApiService) {}
@@ -30,7 +32,27 @@ export class HangmanComponent implements OnInit, OnDestroy, AfterViewInit {
         this.ctx.strokeStyle = '#000';
         this.ctx.lineWidth = 4;
 
-        // draw base & pole
+        this.drawBaseAndPole();
+    }
+
+    private getDrawSteps(): (() => void)[] {
+        return [
+            () => this.drawGallows(),
+            () => this.drawHead(),
+            () => this.drawBody(),
+            () => this.drawLeftArm(),
+            () => this.drawRightArm(),
+            () => this.drawLeftLeg(),
+            () => this.drawRightLeg(),
+        ];
+    }
+
+    drawNextPart() {
+        const step = this.drawSteps.shift();
+        if (step) step();
+    }
+
+    private drawBaseAndPole() {
         this.ctx.beginPath();
         this.ctx.moveTo(50, 380);
         this.ctx.lineTo(250, 380);
@@ -40,21 +62,6 @@ export class HangmanComponent implements OnInit, OnDestroy, AfterViewInit {
         this.ctx.lineTo(100, 50);
         this.ctx.stroke();
     }
-
-    drawNextPart() {
-        const step = this.drawSteps.shift();
-        if (step) step();
-    }
-      
-    private drawSteps = [
-        () => this.drawGallows(),
-        () => this.drawHead(),
-        () => this.drawBody(),
-        () => this.drawLeftArm(),
-        () => this.drawRightArm(),
-        () => this.drawLeftLeg(),
-        () => this.drawRightLeg(),
-    ];
 
     private drawGallows() {
         const ctx = this.ctx;
@@ -120,5 +127,12 @@ export class HangmanComponent implements OnInit, OnDestroy, AfterViewInit {
         ctx.stroke();
 
         this.dead.emit();
+    }
+
+    reset(): void {
+        const canvas = this.canvasRef.nativeElement;
+        this.ctx.clearRect(0, 0, canvas.width, canvas.height);
+        this.drawSteps = this.getDrawSteps();
+        this.drawBaseAndPole();
     }
 }
