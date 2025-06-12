@@ -1,0 +1,11 @@
+<div *ngFor="let row of layout" class="row flex">
+    <div *ngFor="let key of row.split('')"
+        class="key flex"
+        [ngClass]="{
+            'red disabled': wrong.includes(key),
+            'green disabled': correct.includes(key)
+        }"
+        (click)="enter.emit(key);">
+        <div>{{ key | uppercase }}</div>
+    </div>
+</div>

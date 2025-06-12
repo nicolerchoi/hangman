@@ -1,22 +1,19 @@
-<!-- <div *ngIf="word$ | async as word">
-</div> -->
-<input #invisibleInput />
 <div class="wrapper">
     <div class="hangman">
         <app-hangman (dead)="onDead()"></app-hangman>
     </div>
 
-    <div *ngIf="reveal" class="list-letters">
-        {{ word }}
-    </div>
-
     <div class="list-letters">
-        <div *ngFor="let letter of displayed" class="letter displayed">
-            {{ letter }}
+        <div *ngFor="let letter of displayed; let i = index"
+            class="letter displayed"
+            [class.revealed]="reveal && letter === ' '">
+            {{ (reveal ? word[i] : letter) | uppercase }}
         </div>
     </div>
 
-    <div class="list-letters wrong-guesses">
-        <div *ngFor="let letter of wrongGuesses" class="letter">{{ letter | uppercase }}</div>
-    </div>
+    <app-keyboard
+        [correct]="displayed"
+        [wrong]="wrongGuesses"
+        (enter)="onEnter($event)"
+    ></app-keyboard>
 </div>
