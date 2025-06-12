@@ -55,6 +55,10 @@ export class AppComponent implements OnInit {
         }
     }
 
+    get isComplete(): boolean {
+        return !this.displayed.includes(' ');
+    }
+
     onDead(): void {
         this.reveal = true;
     }
