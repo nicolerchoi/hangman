@@ -11,6 +11,8 @@
         </div>
     </div>
 
+    <button *ngIf="reveal" class="material-symbols-outlined" (click)="restart()">replay</button>
+
     <app-keyboard
         [correct]="displayed"
         [wrong]="wrongGuesses"
