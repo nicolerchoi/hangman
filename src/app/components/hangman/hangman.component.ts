@@ -3,8 +3,7 @@ import { ApiService } from 'src/app/api.service';
 
 @Component({
     selector: 'app-hangman',
-    templateUrl: './hangman.component.html',
-    styleUrls: ['./hangman.component.css']
+    templateUrl: './hangman.component.html'
 })
 export class HangmanComponent implements OnInit, OnDestroy, AfterViewInit {
 
@@ -28,7 +27,18 @@ export class HangmanComponent implements OnInit, OnDestroy, AfterViewInit {
     ngAfterViewInit() {
         const canvas = this.canvasRef.nativeElement;
         this.ctx = canvas.getContext('2d')!;
-        // this.drawGallows(); // Initial structure
+        this.ctx.strokeStyle = '#000';
+        this.ctx.lineWidth = 4;
+
+        // draw base & pole
+        this.ctx.beginPath();
+        this.ctx.moveTo(50, 380);
+        this.ctx.lineTo(250, 380);
+        this.ctx.stroke();
+        this.ctx.beginPath();
+        this.ctx.moveTo(100, 380);
+        this.ctx.lineTo(100, 50);
+        this.ctx.stroke();
     }
 
     drawNextPart() {
@@ -48,27 +58,13 @@ export class HangmanComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private drawGallows() {
         const ctx = this.ctx;
-        ctx.strokeStyle = '#000';
-        ctx.lineWidth = 4;
-      
-        // Base
-        ctx.beginPath();
-        ctx.moveTo(50, 380);
-        ctx.lineTo(250, 380);
-        ctx.stroke();
-      
-        // Upright
-        ctx.beginPath();
-        ctx.moveTo(100, 380);
-        ctx.lineTo(100, 50);
-        ctx.stroke();
-      
+
         // Top Beam
         ctx.beginPath();
         ctx.moveTo(100, 50);
         ctx.lineTo(200, 50);
         ctx.stroke();
-      
+
         // Rope
         ctx.beginPath();
         ctx.moveTo(200, 50);

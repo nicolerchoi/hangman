@@ -4,11 +4,13 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { HangmanComponent } from './components/hangman/hangman.component';
+import { KeyboardComponent } from './components/keyboard/keyboard.component';
 
 @NgModule({
     declarations: [
         AppComponent,
-        HangmanComponent
+        HangmanComponent,
+        KeyboardComponent
     ],
     imports: [
         BrowserModule,

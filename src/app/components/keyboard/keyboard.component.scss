@@ -1,0 +1,44 @@
+$red: rgb(238, 179, 179);
+$green: rgb(165, 252, 165);
+
+.flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.row {
+    margin-bottom: 10px;
+}
+
+.key {
+    border: 1px solid lightslategray;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    padding: 10px;
+    margin: 0 3px;
+    cursor: pointer;
+    user-select: none;
+    transition: 300ms;
+
+    &:hover {
+        background: lightblue;
+    }
+
+    &.disabled {
+        cursor: auto;
+        pointer-events: none;
+    }
+
+    &.red {
+        border-color: $red;
+        background: $red;
+        color: rgb(240, 64, 64);
+    }
+
+    &.green {
+        border-color: $green;
+        background: $green;
+    }
+}
